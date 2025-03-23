@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Details</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-3">
+            <h4>Hello, Librarian!</h4>
+            <p>What do you want to do today?</p>
+            <div class="list-group">
+                <a href="lookup_book.html" class="list-group-item list-group-item-action">Look up book info</a>
+                <a href="add_book.html" class="list-group-item list-group-item-action">Add book to the library</a>
+                <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+                <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
+                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
+                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+                <a href="member_details.html" class="list-group-item list-group-item-action active">Show member details</a>
+                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
+            </div>
+            <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
+        </div>
+        
+        <!-- Member details section -->
+        <div class="col-md-9">
+            <h2>Member Details</h2>
+            
+            <!-- Search field for Member ID -->
+			<div class="mb-3 d-flex">
+                <button class="btn btn-primary me-2">Search</button>
+                <input type="text" id="memberId" class="form-control" placeholder="Member ID">
+            </div>
+            
+            <!-- Member Info Table -->
+            <h3>Member Information</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Member ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date of Birth</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>1990-05-12</td>
+                        <td>john.doe@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Loaned Books Table -->
+            <h3>Loaned Books</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publication Year</th>
+                        <th>ISBN</th>
+                        <th>Loan Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>The Great Gatsby</td>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>1925</td>
+                        <td>9780743273565</td>
+                        <td>2025-03-01</td>
+                        <td>2025-03-15</td>
+                    </tr>
+                    <tr>
+                        <td>1984</td>
+                        <td>George Orwell</td>
+                        <td>1949</td>
+                        <td>9780451524935</td>
+                        <td>2025-02-20</td>
+                        <td>2025-03-05</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

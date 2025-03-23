@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Book to Member</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-3">
+            <h4>Hello, Librarian!</h4>
+            <p>What do you want to do today?</p>
+            <div class="list-group">
+                <a href="lookup_book.html" class="list-group-item list-group-item-action">Look up book info</a>
+                <a href="add_book.html" class="list-group-item list-group-item-action">Add book to the library</a>
+                <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+                <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
+                <a href="loan_book.html" class="list-group-item list-group-item-action active">Loan out book to member</a>
+                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+                <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
+                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
+            </div>
+            <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
+        </div>
+
+        <!-- Loan Book section -->
+        <div class="col-md-9">
+            <h2>Loan Book to Member</h2>
+            
+            <!-- Form fields for Member ID and ISBN -->
+            <div class="mb-3">
+                <label for="memberId" class="form-label">Member ID:</label>
+                <input type="text" id="memberId" class="form-control" placeholder="Member ID">
+            </div>
+            
+            <div class="mb-3">
+                <label for="isbn" class="form-label">Book ISBN:</label>
+                <input type="text" id="isbn" class="form-control" placeholder="ISBN">
+            </div>
+
+            <!-- Submit Button -->
+            <button class="btn btn-primary" onclick="loanBook()">Submit</button>
+            
+            <!-- Loan confirmation message -->
+            <p id="confirmationMessage" class="mt-3 text-success" style="display: none;">Book successfully loaned out!</p>
+        </div>
+    </div>
+
+    <script>
+        function loanBook() {
+            // Clear input fields
+            document.getElementById("memberId").value = '';
+            document.getElementById("isbn").value = '';
+
+            // Show confirmation message
+            document.getElementById('confirmationMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

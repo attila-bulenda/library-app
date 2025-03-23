@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-3">
+            <h4>Hello, Librarian!</h4>
+            <p>What do you want to do today?</p>
+            <div class="list-group">
+                <a href="lookup_book.html" class="list-group-item list-group-item-action active">Look up book info</a>
+                <a href="add_book.html" class="list-group-item list-group-item-action">Add book to the library</a>
+                <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+                <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
+                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
+                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+                <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
+                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
+            </div>
+            <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
+        </div>
+        
+        <!-- Book details section -->
+        <div class="col-md-9">
+            <h2>Search for Book Details</h2>
+            
+            <!-- Search field for ISBN -->
+			<div class="mb-3 d-flex">
+                <button class="btn btn-primary me-2" onclick="searchBook()">Search</button>
+                <input type="text" id="isbn" class="form-control" placeholder="ISBN">
+            </div>
+            
+          
+            <!-- Book Details Table -->
+            <br/>
+			<div id="bookInfoTable" class="col-md-9" style="display: none;">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Author</th>
+							<th>Publication Year</th>
+							<th>ISBN</th>
+							<th>Loan Date</th>
+							<th>Due Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>The Great Gatsby</td>
+							<td>F. Scott Fitzgerald</td>
+							<td>1925</td>
+							<td>9780743273565</td>
+							<td>2025-03-01</td>
+							<td>2025-03-15</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+        </div>
+    </div>
+	
+	    <script>
+        function searchBook() {
+            // Clear input field
+            document.getElementById("isbn").value = '';
+
+            // Show book details
+            document.getElementById('bookInfoTable').style.display = 'block';
+        }
+    </script>
+	
+</body>
+</html>

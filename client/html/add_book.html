@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book to Library</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-3">
+            <h4>Hello, Librarian!</h4>
+            <p>What do you want to do today?</p>
+            <div class="list-group">
+                <a href="lookup_book.html" class="list-group-item list-group-item-action">Look up book info</a>
+                <a href="add_book.html" class="list-group-item list-group-item-action active">Add book to the library</a>
+                <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+                <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
+                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
+                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+                <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
+                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
+            </div>
+            <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
+        </div>
+
+        <!-- Add Book section -->
+        <div class="col-md-9">
+            <h2>Add Book to Library</h2>
+            
+            <!-- Form fields for book details -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" id="title" class="form-control" placeholder="Book title">
+            </div>
+            
+            <div class="mb-3">
+                <label for="author" class="form-label">Author:</label>
+                <input type="text" id="author" class="form-control" placeholder="Author">
+            </div>
+			
+			<div class="mb-3">
+                <label for="pubyear" class="form-label">Publication Year:</label>
+                <input type="text" id="pubyear" class="form-control" placeholder="Publication Year">
+            </div>
+			
+			<div class="mb-3">
+                <label for="isbn" class="form-label">ISBN:</label>
+                <input type="text" id="isbn" class="form-control" placeholder="ISBN">
+            </div>
+
+            <!-- Submit Button -->
+            <button class="btn btn-primary" onclick="addBook()">Add book</button>
+            
+            <!-- Return confirmation message -->
+            <p id="confirmationMessage" class="mt-3 text-success" style="display: none;">Book successfully added to library!</p>
+        </div>
+    </div>
+
+    <script>
+        function addBook() {
+            // Clear input fields
+            document.getElementById("title").value = '';
+			document.getElementById("author").value = '';
+			document.getElementById("pubyear").value = '';
+            document.getElementById("isbn").value = '';
+
+            // Show confirmation message
+            document.getElementById('confirmationMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

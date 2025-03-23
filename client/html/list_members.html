@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Library Members</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <div class="row">
+        <!-- Sidebar menu -->
+        <div class="col-md-3">
+            <h4>Hello, Librarian!</h4>
+            <p>What do you want to do today?</p>
+            <div class="list-group">
+                <a href="lookup_book.html" class="list-group-item list-group-item-action">Look up book info</a>
+                <a href="add_book.html" class="list-group-item list-group-item-action">Add book to the library</a>
+                <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+                <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
+                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
+                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+                <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
+                <a href="list_members.html" class="list-group-item list-group-item-action active">List all library members</a>
+            </div>
+            <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
+        </div>
+        
+        <!-- Member list table -->
+        <div class="col-md-9">
+            <h2>Library Members</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Member ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date of Birth</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>John</td><td>Doe</td><td>1990-05-12</td><td>john.doe@example.com</td></tr>
+                    <tr><td>2</td><td>Jane</td><td>Smith</td><td>1985-07-23</td><td>jane.smith@example.com</td></tr>
+                    <tr><td>3</td><td>Michael</td><td>Brown</td><td>1992-11-04</td><td>michael.brown@example.com</td></tr>
+                    <tr><td>4</td><td>Emily</td><td>Johnson</td><td>1988-02-14</td><td>emily.johnson@example.com</td></tr>
+                    <tr><td>5</td><td>Daniel</td><td>Williams</td><td>1995-09-30</td><td>daniel.williams@example.com</td></tr>
+                    <tr><td>6</td><td>Sarah</td><td>Miller</td><td>1983-06-18</td><td>sarah.miller@example.com</td></tr>
+                    <tr><td>7</td><td>David</td><td>Wilson</td><td>1991-04-25</td><td>david.wilson@example.com</td></tr>
+                    <tr><td>8</td><td>Olivia</td><td>Martinez</td><td>1998-12-07</td><td>olivia.martinez@example.com</td></tr>
+                    <tr><td>9</td><td>James</td><td>Anderson</td><td>1987-08-15</td><td>james.anderson@example.com</td></tr>
+                    <tr><td>10</td><td>Emma</td><td>Thomas</td><td>1993-03-22</td><td>emma.thomas@example.com</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
