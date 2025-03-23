@@ -1,0 +1,6 @@
+services:
+  client:
+    build: ./client
+    image: library-app-client  # Make sure this matches
+    ports:
+      - "8080:80"
