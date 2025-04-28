@@ -26,5 +26,6 @@ RUN dotnet publish "./library-app.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "library-app.dll"]
