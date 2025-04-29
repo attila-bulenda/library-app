@@ -28,4 +28,5 @@ FROM base AS final
 WORKDIR /app
 ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
 COPY --from=publish /app/publish .
+RUN dotnet ef database update --project /app/publish/library-app.dll
 ENTRYPOINT ["dotnet", "library-app.dll"]
