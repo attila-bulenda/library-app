@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using library_app.Data;
+using library_app.Models.Book;
+using AutoMapper;
 
 namespace library_app.Controllers
 {
@@ -14,10 +16,12 @@ namespace library_app.Controllers
     public class BooksController : ControllerBase
     {
         private readonly LibraryAppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public BooksController(LibraryAppDbContext context)
+        public BooksController(LibraryAppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Books
@@ -75,11 +79,11 @@ namespace library_app.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook(CreateBookDto bookDto)
         {
+            var book = _mapper.Map<Book>(bookDto);
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
