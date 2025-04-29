@@ -8,7 +8,8 @@ namespace library_app.Configurations
     {
         public AutoMapperConfig()
         {
-            CreateMap<Book, CreateBookDto>().ReverseMap();    
+            CreateMap<Book, CreateBookDto>().ReverseMap();  
+            CreateMap<Book, BookDto>().ReverseMap();
         }
     }
 }

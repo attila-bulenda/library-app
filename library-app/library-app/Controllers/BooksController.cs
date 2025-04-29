@@ -26,58 +26,55 @@ namespace library_app.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            var books = await _context.Books.ToListAsync();
+            var records = _mapper.Map<List<BookDto>>(books);
+            return Ok(records);
         }
 
-        // GET: api/Books/5
-        [HttpGet("{id}")]
+        // GET: api/Books/id/5
+        [HttpGet("id/{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return book;
+            var searchResult = await _context.Books.FindAsync(id);
+            return GetBookBySearchResult(searchResult);
         }
 
-        // PUT: api/Books/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        // GET: api/Books/isbn/978-3-445-56789-0
+        [HttpGet("isbn/{isbn}")]
+        public async Task<ActionResult<Book>> GetBookByIsbn(string isbn)
         {
-            if (id != book.Id)
+            var searchResult = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            return GetBookBySearchResult(searchResult);
+        }
+
+        // PUT: api/Books/978-0-432-98765-4
+        [HttpPut("{isbn}")]
+        public async Task<IActionResult> PutBook(string isbn, BookDto updateBookDto)
+        {
+            if (isbn != updateBookDto.ISBN)
             {
                 return BadRequest();
             }
-
-            _context.Entry(book).State = EntityState.Modified;
-
+            var searchResult = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            if (searchResult == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(updateBookDto, searchResult);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-
             return NoContent();
         }
 
         // POST: api/Books
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(CreateBookDto bookDto)
         {
@@ -87,25 +84,28 @@ namespace library_app.Controllers
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
-        // DELETE: api/Books/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
+        // DELETE: api/Books/978-0-432-98765-4
+        [HttpDelete("{isbn}")]
+        public async Task<IActionResult> DeleteBook(string isbn)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
             if (book == null)
             {
                 return NotFound();
             }
-
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool BookExists(int id)
+        private ActionResult<Book> GetBookBySearchResult(Book searchResult)
         {
-            return _context.Books.Any(e => e.Id == id);
+            if (searchResult == null)
+            {
+                return NotFound();
+            }
+            var book = _mapper.Map<BookDto>(searchResult);
+            return Ok(book);
         }
     }
 }
