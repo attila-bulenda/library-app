@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Details</title>
     <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+	<script>
+		async function searchBook() {
+			const isbnInput = document.getElementById("isbn");
+			const isbn = isbnInput.value.trim();
+
+			if (!isbn) {
+				alert("Please enter an ISBN.");
+				return;
+			}
+
+			try {
+				const response = await fetch("https://localhost:8080/api/books/isbn/" + isbn);
+				if (!response.ok) {
+					throw new Error("Book not found");
+				}
+
+				const book = await response.json();
+
+				// Update the table with book data
+				const tbody = document.querySelector("#bookInfoTable tbody");
+				tbody.innerHTML = `
+					<tr>
+						<td>${book.author}</td>
+						<td>${book.title}</td>
+						<td>${book.publicationYear}</td>
+						<td>${book.isbn}</td>
+						<td>${book.availableForLoan ? "Available" : "Loaned Out"}</td>
+					</tr>
+				`;
+			} catch (error) {
+				console.error("Error:", error);
+				alert("Could not fetch book. Please check the ISBN.");
+			}
+
+			isbnInput.value = ""; // Optionally clear input
+		}
+	</script>
 </head>
 <body class="container mt-5">
     <div class="row">
@@ -13,14 +50,14 @@
             <h4>Hello, Librarian!</h4>
             <p>What do you want to do today?</p>
             <div class="list-group">
+				<a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
                 <a href="lookup_book.html" class="list-group-item list-group-item-action active">Look up book info</a>
                 <a href="add_book.html" class="list-group-item list-group-item-action">Add book to the library</a>
                 <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+				<a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
                 <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
-                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
-                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+				<a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
                 <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
-                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
             </div>
             <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
         </div>
@@ -38,43 +75,23 @@
           
             <!-- Book Details Table -->
             <br/>
-			<div id="bookInfoTable" class="col-md-9" style="display: none;">
+			<div id="bookInfoTable" class="col-md-9">
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>Title</th>
 							<th>Author</th>
+							<th>Title</th>
 							<th>Publication Year</th>
 							<th>ISBN</th>
-							<th>Loan Date</th>
-							<th>Due Date</th>
+							<th>Loan Status</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>The Great Gatsby</td>
-							<td>F. Scott Fitzgerald</td>
-							<td>1925</td>
-							<td>9780743273565</td>
-							<td>2025-03-01</td>
-							<td>2025-03-15</td>
-						</tr>
-
+					<tbody id="bookTableBody">
+						<!-- JS will populate this -->
 					</tbody>
 				</table>
 			</div>
         </div>
-    </div>
-	
-	    <script>
-        function searchBook() {
-            // Clear input field
-            document.getElementById("isbn").value = '';
-
-            // Show book details
-            document.getElementById('bookInfoTable').style.display = 'block';
-        }
-    </script>
-	
+    </div>	
 </body>
 </html>

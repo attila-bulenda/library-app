@@ -13,14 +13,14 @@
             <h4>Hello, Librarian!</h4>
             <p>What do you want to do today?</p>
             <div class="list-group">
+				<a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
                 <a href="lookup_book.html" class="list-group-item list-group-item-action">Look up book info</a>
                 <a href="add_book.html" class="list-group-item list-group-item-action active">Add book to the library</a>
                 <a href="remove_book.html" class="list-group-item list-group-item-action">Remove book from the library</a>
+				<a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
                 <a href="return_book.html" class="list-group-item list-group-item-action">Return book to the library</a>
-                <a href="loan_book.html" class="list-group-item list-group-item-action">Loan out book to member</a>
-                <a href="list_books.html" class="list-group-item list-group-item-action">List all books in the library</a>
+				<a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
                 <a href="member_details.html" class="list-group-item list-group-item-action">Show member details</a>
-                <a href="list_members.html" class="list-group-item list-group-item-action">List all library members</a>
             </div>
             <a href="logout.html" class="btn btn-danger mt-3">Log out</a>
         </div>
@@ -58,17 +58,50 @@
         </div>
     </div>
 
-    <script>
-        function addBook() {
-            // Clear input fields
-            document.getElementById("title").value = '';
-			document.getElementById("author").value = '';
-			document.getElementById("pubyear").value = '';
-            document.getElementById("isbn").value = '';
+	<script>
+	  async function addBook() {
+		// Get values from input fields
+		const title = document.getElementById("title").value.trim();
+		const author = document.getElementById("author").value.trim();
+		const pubYear = parseInt(document.getElementById("pubyear").value.trim());
+		const isbn = document.getElementById("isbn").value.trim();
 
-            // Show confirmation message
-            document.getElementById('confirmationMessage').style.display = 'block';
-        }
-    </script>
+		// Basic validation
+		if (!title || !author || isNaN(pubYear) || !isbn) {
+		  alert("Please fill in all fields correctly.");
+		  return;
+		}
+
+		const newBook = {
+		  ISBN: isbn,
+		  Title: title,
+		  Author: author,
+		  PublicationYear: pubYear,
+		  AvailableForLoan: true
+		};
+
+		try {
+		  const response = await fetch("https://localhost:8080/api/books", {
+			method: "POST",
+			headers: {
+			  "Content-Type": "application/json"
+			},
+			body: JSON.stringify(newBook)
+		  });
+
+		  if (!response.ok) throw new Error("Failed to add book");
+
+		  // Show confirmation and clear fields
+		  document.getElementById("confirmationMessage").style.display = "block";
+		  document.getElementById("title").value = '';
+		  document.getElementById("author").value = '';
+		  document.getElementById("pubyear").value = '';
+		  document.getElementById("isbn").value = '';
+		} catch (error) {
+		  console.error("Error adding book:", error);
+		  alert("Could not add book. See console for details.");
+		}
+	  }
+	</script>
 </body>
 </html>

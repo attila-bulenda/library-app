@@ -79,6 +79,7 @@ namespace library_app.Controllers
         public async Task<ActionResult<Book>> PostBook(CreateBookDto bookDto)
         {
             var book = _mapper.Map<Book>(bookDto);
+            book.AvailableForLoan = true;
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
