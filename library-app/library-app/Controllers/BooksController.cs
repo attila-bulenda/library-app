@@ -19,7 +19,7 @@ namespace library_app.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Books
+        // GET: api/books
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
@@ -28,7 +28,7 @@ namespace library_app.Controllers
             return Ok(records);
         }
         
-        // GET: api/Books/id/5
+        // GET: api/books/id/5
         [HttpGet("id/{id}")]
         public async Task<ActionResult<BookDto>> GetBook(int id)
         {
@@ -36,7 +36,7 @@ namespace library_app.Controllers
             return GetBookBySearchResult(searchResult);
         }
 
-        // GET: api/Books/isbn/978-3-445-56789-0
+        // GET: api/books/isbn/978-3-445-56789-0
         [HttpGet("isbn/{isbn}")]
         public async Task<ActionResult<BookDto>> GetBookByIsbn(string isbn)
         {
@@ -44,7 +44,7 @@ namespace library_app.Controllers
             return GetBookBySearchResult(searchResult);
         }
 
-        // PUT: api/Books/978-0-432-98765-4
+        // PUT: api/books/978-0-432-98765-4
         [HttpPut("{isbn}")]
         public async Task<IActionResult> PutBook(string isbn, BookDto updateBookDto)
         {
@@ -69,7 +69,7 @@ namespace library_app.Controllers
             return NoContent();
         }
 
-        // POST: api/Books
+        // POST: api/books
         [HttpPost]
         public async Task<ActionResult<BookDto>> PostBook(CreateBookDto bookDto)
         {
@@ -80,7 +80,7 @@ namespace library_app.Controllers
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
-        // DELETE: api/Books/978-0-432-98765-4
+        // DELETE: api/books/978-0-432-98765-4
         [HttpDelete("{isbn}")]
         public async Task<IActionResult> DeleteBook(string isbn)
         {

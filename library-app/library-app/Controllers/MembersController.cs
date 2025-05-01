@@ -19,7 +19,7 @@ namespace library_app.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Members
+        // GET: api/members
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetMembers()
         {
@@ -28,7 +28,7 @@ namespace library_app.Controllers
             return Ok(members);
         }
 
-        // GET: api/Members/5
+        // GET: api/members/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberFullDto>> GetMember(int id)
         {
@@ -45,7 +45,7 @@ namespace library_app.Controllers
             return Ok(member);
         }
 
-        // POST: api/Members/loan/
+        // POST: api/members/loan/1/978-1-345-67890-1
         [HttpPost("loan/{id}/{isbn}")]
         public async Task<ActionResult<Member>> LoanOutBookToMember(int id, string isbn)
         {
@@ -72,7 +72,7 @@ namespace library_app.Controllers
             return NoContent();
         }
 
-        // POST: api/Members/return/
+        // POST: api/members/return/1/978-1-345-67890-1
         [HttpPost("return/{id}/{isbn}")]
         public async Task<ActionResult<Member>> ReturnBookToLibrary(int id, string isbn)
         {
