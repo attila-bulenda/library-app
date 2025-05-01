@@ -8,6 +8,7 @@ const urls = {
 	},
 	member: {
 		getMembers: "/api/members",
-		getMemberById: "/api/members/"
+		getMemberById: "/api/members/",
+		loanBookToMember: "/api/members/loan/"
 	}
 }
