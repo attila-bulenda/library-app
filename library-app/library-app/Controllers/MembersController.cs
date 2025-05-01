@@ -89,7 +89,6 @@ namespace library_app.Controllers
         }
 
         // POST: api/Members/loan/
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("loan/{id}/{isbn}")]
         public async Task<ActionResult<Member>> LoanOutBookToMember(int id, string isbn)
         {
@@ -112,6 +111,32 @@ namespace library_app.Controllers
             member.BooksLoaned ??= new List<Book>();
             book.AvailableForLoan = false;
             member.BooksLoaned.Add(book);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // POST: api/Members/return/
+        [HttpPost("return/{id}/{isbn}")]
+        public async Task<ActionResult<Member>> ReturnBookToLibrary(int id, string isbn)
+        {
+            var member = await _context.Members.FindAsync(id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+
+            if (member == null)
+            {
+                return NotFound($"Member not found with ID {id}.");
+            }
+            else if (book == null)
+            {
+                return NotFound($"Book not found with ISBN {isbn}.");
+            }
+            else if (book.AvailableForLoan == true)
+            {
+                return BadRequest("Error: book already available.");
+            }
+
+            book.AvailableForLoan = true;
+            member.BooksLoaned.Remove(book);
             await _context.SaveChangesAsync();
             return NoContent();
         }

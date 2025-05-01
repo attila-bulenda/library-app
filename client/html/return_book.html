@@ -47,16 +47,49 @@
             <p id="confirmationMessage" class="mt-3 text-success" style="display: none;">Book successfully returned!</p>
         </div>
     </div>
+	<script src="../js/config.js"></script>
+	<script>
+		async function returnBook() {
+			const memberId = document.getElementById("memberId").value.trim();
+			const isbn = document.getElementById("isbn").value.trim();
+			const messageElement = document.getElementById('confirmationMessage');
 
-    <script>
-        function returnBook() {
-            // Clear input fields
-            document.getElementById("memberId").value = '';
-            document.getElementById("isbn").value = '';
+			// Hide any old message
+			messageElement.style.display = 'none';
+			messageElement.classList.remove('text-success', 'text-danger');
 
-            // Show confirmation message
-            document.getElementById('confirmationMessage').style.display = 'block';
-        }
-    </script>
+			if (!memberId || !isbn) {
+				messageElement.textContent = 'Please enter both Member ID and ISBN.';
+				messageElement.classList.add('text-danger');
+				messageElement.style.display = 'block';
+				return;
+			}
+
+			try {
+				const response = await fetch(`${urls.base}${urls.member.returnBookToLibrary}${memberId}/${isbn}`, {
+					method: 'POST'
+				});
+
+				if (!response.ok) {
+					throw new Error(`Failed to return book: ${response.status}`);
+				}
+
+				// Clear inputs
+				document.getElementById("memberId").value = '';
+				document.getElementById("isbn").value = '';
+
+				// Show success message
+				messageElement.textContent = 'Book successfully returned!';
+				messageElement.classList.add('text-success');
+				messageElement.style.display = 'block';
+
+			} catch (error) {
+				console.error(error);
+				messageElement.textContent = 'Error: ' + error.message;
+				messageElement.classList.add('text-danger');
+				messageElement.style.display = 'block';
+			}
+		}
+	</script>
 </body>
 </html>
