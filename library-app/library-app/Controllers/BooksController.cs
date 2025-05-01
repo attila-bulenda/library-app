@@ -27,7 +27,6 @@ namespace library_app.Controllers
             var records = _mapper.Map<List<BookDto>>(books);
             return Ok(records);
         }
-
         
         // GET: api/Books/id/5
         [HttpGet("id/{id}")]

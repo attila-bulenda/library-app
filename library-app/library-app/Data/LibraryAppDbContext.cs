@@ -7,7 +7,6 @@ namespace library_app.Data
         public LibraryAppDbContext(DbContextOptions<LibraryAppDbContext> options): base(options)
         {              
         }
-
         public DbSet<Book> Books { get; set; }
         public DbSet<Member> Members { get; set; }
     }
