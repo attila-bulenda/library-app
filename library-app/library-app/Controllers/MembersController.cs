@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using library_app.Data;
+using library_app.Models.Member;
+using AutoMapper;
 
 namespace library_app.Controllers
 {
@@ -14,17 +16,21 @@ namespace library_app.Controllers
     public class MembersController : ControllerBase
     {
         private readonly LibraryAppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public MembersController(LibraryAppDbContext context)
+        public MembersController(LibraryAppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Members
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetMembers()
         {
-            return await _context.Members.ToListAsync();
+            var result = await _context.Members.ToListAsync();
+            var members = _mapper.Map<List<MemberDto>>(result);
+            return Ok(members);
         }
 
         // GET: api/Members/5
@@ -37,7 +43,6 @@ namespace library_app.Controllers
             {
                 return NotFound();
             }
-
             return member;
         }
 

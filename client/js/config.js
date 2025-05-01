@@ -5,5 +5,8 @@ const urls = {
 		addBook: "/api/books",
 		removeBook: "/api/books/",
 		searchBookByIsbn: "/api/books/isbn/"
+	},
+	member: {
+		getMembers: "/api/members"
 	}
 }

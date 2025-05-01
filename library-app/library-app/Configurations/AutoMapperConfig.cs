@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using library_app.Data;
 using library_app.Models.Book;
+using library_app.Models.Member;
 
 namespace library_app.Configurations
 {
@@ -10,6 +11,8 @@ namespace library_app.Configurations
         {
             CreateMap<Book, CreateBookDto>().ReverseMap();  
             CreateMap<Book, BookDto>().ReverseMap();
+
+            CreateMap<Member, MemberDto>().ReverseMap();
         }
     }
 }
