@@ -1,4 +1,4 @@
-﻿namespace library_app.Models.Member
+﻿namespace library_app.Models.MemberDtos
 {
     public class MemberDto
     {

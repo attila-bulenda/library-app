@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace library_app.Data
+﻿namespace library_app.Data
 {
     public class Book
     {

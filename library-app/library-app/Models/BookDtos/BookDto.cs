@@ -1,4 +1,4 @@
-﻿namespace library_app.Models.Book
+﻿namespace library_app.Models.BookDtos
 {
     public class BookDto
     {

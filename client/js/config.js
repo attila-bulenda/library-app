@@ -7,6 +7,7 @@ const urls = {
 		searchBookByIsbn: "/api/books/isbn/"
 	},
 	member: {
-		getMembers: "/api/members"
+		getMembers: "/api/members",
+		getMemberById: "/api/members/"
 	}
 }

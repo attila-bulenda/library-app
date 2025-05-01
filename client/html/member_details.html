@@ -47,13 +47,9 @@
                         <th>Email</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="memberDetails">
                     <tr>
-                        <td>1</td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>1990-05-12</td>
-                        <td>john.doe@example.com</td>
+   
                     </tr>
                 </tbody>
             </table>
@@ -67,30 +63,68 @@
                         <th>Author</th>
                         <th>Publication Year</th>
                         <th>ISBN</th>
-                        <th>Loan Date</th>
-                        <th>Due Date</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="loanedBooksDetails">
                     <tr>
-                        <td>The Great Gatsby</td>
-                        <td>F. Scott Fitzgerald</td>
-                        <td>1925</td>
-                        <td>9780743273565</td>
-                        <td>2025-03-01</td>
-                        <td>2025-03-15</td>
-                    </tr>
-                    <tr>
-                        <td>1984</td>
-                        <td>George Orwell</td>
-                        <td>1949</td>
-                        <td>9780451524935</td>
-                        <td>2025-02-20</td>
-                        <td>2025-03-05</td>
+
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+	<script src="../js/config.js"></script>
+	<script>
+		document.querySelector(".btn.btn-primary").addEventListener("click", async () => {
+			const memberId = document.getElementById("memberId").value.trim();
+			if (!memberId) {
+				alert("Please enter a Member ID.");
+				return;
+			}
+
+			try {
+				const response = await fetch(`${urls.base}${urls.member.getMemberById}${memberId}`);
+				if (!response.ok) {
+					throw new Error("Member not found");
+				}
+
+				const data = await response.json();
+
+				// Populate Member Details
+				const memberDetailsRow = `
+					<tr>
+						<td>${data.id}</td>
+						<td>${data.firstName}</td>
+						<td>${data.lastName}</td>
+						<td>${new Date(data.dob).toLocaleDateString()}</td>
+						<td>${data.email}</td>
+					</tr>
+				`;
+				document.getElementById("memberDetails").innerHTML = memberDetailsRow;
+
+				// Populate Loaned Books
+				let loanedBooksRows = "";
+				data.booksLoaned.forEach(book => {
+					loanedBooksRows += `
+						<tr>
+							<td>${book.title}</td>
+							<td>${book.author}</td>
+							<td>${book.publicationYear}</td>
+							<td>${book.isbn}</td>
+						</tr>
+					`;
+				});
+
+				document.getElementById("loanedBooksDetails").innerHTML = loanedBooksRows || `
+					<tr><td colspan="4">No books currently loaned</td></tr>
+				`;
+			} catch (error) {
+				alert(error.message);
+				document.getElementById("memberDetails").innerHTML = "";
+				document.getElementById("loanedBooksDetails").innerHTML = "";
+			}
+		});
+	</script>
+
 </body>
 </html>

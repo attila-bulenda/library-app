@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using library_app.Data;
-using library_app.Models.Book;
+using library_app.Models.BookDtos;
 using AutoMapper;
 
 namespace library_app.Controllers
@@ -33,9 +28,10 @@ namespace library_app.Controllers
             return Ok(records);
         }
 
+        
         // GET: api/Books/id/5
         [HttpGet("id/{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public async Task<ActionResult<BookDto>> GetBook(int id)
         {
             var searchResult = await _context.Books.FindAsync(id);
             return GetBookBySearchResult(searchResult);
@@ -43,7 +39,7 @@ namespace library_app.Controllers
 
         // GET: api/Books/isbn/978-3-445-56789-0
         [HttpGet("isbn/{isbn}")]
-        public async Task<ActionResult<Book>> GetBookByIsbn(string isbn)
+        public async Task<ActionResult<BookDto>> GetBookByIsbn(string isbn)
         {
             var searchResult = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
             return GetBookBySearchResult(searchResult);
@@ -76,7 +72,7 @@ namespace library_app.Controllers
 
         // POST: api/Books
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(CreateBookDto bookDto)
+        public async Task<ActionResult<BookDto>> PostBook(CreateBookDto bookDto)
         {
             var book = _mapper.Map<Book>(bookDto);
             book.AvailableForLoan = true;
@@ -99,7 +95,7 @@ namespace library_app.Controllers
             return NoContent();
         }
 
-        private ActionResult<Book> GetBookBySearchResult(Book searchResult)
+        private ActionResult<BookDto> GetBookBySearchResult(Book searchResult)
         {
             if (searchResult == null)
             {

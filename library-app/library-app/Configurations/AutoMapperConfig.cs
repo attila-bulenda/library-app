@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using library_app.Data;
-using library_app.Models.Book;
-using library_app.Models.Member;
+using library_app.Models.BookDtos;
+using library_app.Models.MemberDtos;
 
 namespace library_app.Configurations
 {
@@ -13,6 +13,7 @@ namespace library_app.Configurations
             CreateMap<Book, BookDto>().ReverseMap();
 
             CreateMap<Member, MemberDto>().ReverseMap();
+            CreateMap<Member, MemberFullDto>();
         }
     }
 }
