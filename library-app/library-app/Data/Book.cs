@@ -10,5 +10,8 @@ namespace library_app.Data
         public string Author { get; set; }
         public int PublicationYear { get; set; }
         public bool AvailableForLoan { get; set; }
+
+        public int? MemberId { get; set; } 
+        public Member Member { get; set; }
     }
 }
