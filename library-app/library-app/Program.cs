@@ -15,6 +15,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<IMembersRepository, MembersRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>

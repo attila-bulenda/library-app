@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using library_app.Data;
 using library_app.Models.MemberDtos;
 using AutoMapper;
+using library_app.Contracts;
 
 namespace library_app.Controllers
 {
@@ -10,12 +11,14 @@ namespace library_app.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        private readonly LibraryAppDbContext _context;
+        private readonly IMembersRepository _membersRepository;
+        private readonly IBooksRepository _booksRepository;
         private readonly IMapper _mapper;
 
-        public MembersController(LibraryAppDbContext context, IMapper mapper)
+        public MembersController(IMapper mapper, IMembersRepository membersRepository, IBooksRepository booksRepository)
         {
-            _context = context;
+            _membersRepository = membersRepository;
+            _booksRepository = booksRepository;
             _mapper = mapper;
         }
 
@@ -23,7 +26,7 @@ namespace library_app.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetMembers()
         {
-            var result = await _context.Members.ToListAsync();
+            var result = await _membersRepository.GetAllAsync();    
             var members = _mapper.Map<List<MemberDto>>(result);
             return Ok(members);
         }
@@ -32,15 +35,11 @@ namespace library_app.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberFullDto>> GetMember(int id)
         {
-            var result = await _context.Members
-                .Include(m => m.BooksLoaned)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var result = await _membersRepository.FindMemberWithBooksLoanedAsync(id);
             if (result == null)
             {
                 return NotFound();
             }
-
             var member = _mapper.Map<MemberFullDto>(result);
             return Ok(member);
         }
@@ -49,9 +48,8 @@ namespace library_app.Controllers
         [HttpPost("loan/{id}/{isbn}")]
         public async Task<ActionResult<Member>> LoanOutBookToMember(int id, string isbn)
         {
-            var member = await _context.Members.FindAsync(id);
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
-
+            var member = await _membersRepository.GetAsync(id);
+            var book = await _booksRepository.FindByISBNAsync(isbn);
             if (member == null)
             {
                 return NotFound($"Member not found with ID {id}.");
@@ -64,11 +62,7 @@ namespace library_app.Controllers
             {
                 return BadRequest("Error: book already loaned.");
             }
-
-            member.BooksLoaned ??= new List<Book>();
-            book.AvailableForLoan = false;
-            member.BooksLoaned.Add(book);
-            await _context.SaveChangesAsync();
+            await _membersRepository.LoanOutBookToMemberAsync(book, member);
             return NoContent();
         }
 
@@ -76,9 +70,8 @@ namespace library_app.Controllers
         [HttpPost("return/{id}/{isbn}")]
         public async Task<ActionResult<Member>> ReturnBookToLibrary(int id, string isbn)
         {
-            var member = await _context.Members.FindAsync(id);
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
-
+            var member = await _membersRepository.GetAsync(id);
+            var book = await _booksRepository.FindByISBNAsync(isbn);
             if (member == null)
             {
                 return NotFound($"Member not found with ID {id}.");
@@ -91,10 +84,7 @@ namespace library_app.Controllers
             {
                 return BadRequest("Error: book already available.");
             }
-
-            book.AvailableForLoan = true;
-            member.BooksLoaned.Remove(book);
-            await _context.SaveChangesAsync();
+            await _membersRepository.ReturnBookToLibraryAsync(book, member);
             return NoContent();
         }
     }
