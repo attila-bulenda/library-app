@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using library_app.Data;
 using library_app.Models.BookDtos;
 using AutoMapper;
+using library_app.Contracts;
 
 namespace library_app.Controllers
 {
@@ -10,12 +11,12 @@ namespace library_app.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly LibraryAppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IBooksRepository _booksRepository;
 
-        public BooksController(LibraryAppDbContext context, IMapper mapper)
+        public BooksController(IMapper mapper, IBooksRepository booksRepository)
         {
-            _context = context;
+            _booksRepository = booksRepository;
             _mapper = mapper;
         }
 
@@ -23,7 +24,7 @@ namespace library_app.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
-            var books = await _context.Books.ToListAsync();
+            var books = await _booksRepository.GetAllAsync();
             var records = _mapper.Map<List<BookDto>>(books);
             return Ok(records);
         }
@@ -32,7 +33,7 @@ namespace library_app.Controllers
         [HttpGet("id/{id}")]
         public async Task<ActionResult<BookDto>> GetBook(int id)
         {
-            var searchResult = await _context.Books.FindAsync(id);
+            var searchResult = await _booksRepository.GetAsync(id);
             return GetBookBySearchResult(searchResult);
         }
 
@@ -40,7 +41,7 @@ namespace library_app.Controllers
         [HttpGet("isbn/{isbn}")]
         public async Task<ActionResult<BookDto>> GetBookByIsbn(string isbn)
         {
-            var searchResult = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            var searchResult = await _booksRepository.FindByISBNAsync(isbn);
             return GetBookBySearchResult(searchResult);
         }
 
@@ -52,7 +53,7 @@ namespace library_app.Controllers
             {
                 return BadRequest();
             }
-            var searchResult = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            var searchResult = await _booksRepository.FindByISBNAsync(isbn);
             if (searchResult == null)
             {
                 return NotFound();
@@ -60,7 +61,7 @@ namespace library_app.Controllers
             _mapper.Map(updateBookDto, searchResult);
             try
             {
-                await _context.SaveChangesAsync();
+                await _booksRepository.UpdateAsync(searchResult);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -75,8 +76,7 @@ namespace library_app.Controllers
         {
             var book = _mapper.Map<Book>(bookDto);
             book.AvailableForLoan = true;
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
+            await _booksRepository.AddAsync(book);
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
@@ -84,13 +84,12 @@ namespace library_app.Controllers
         [HttpDelete("{isbn}")]
         public async Task<IActionResult> DeleteBook(string isbn)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            var book = await _booksRepository.FindByISBNAsync(isbn);
             if (book == null)
             {
                 return NotFound();
             }
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+            await _booksRepository.DeleteAsync(book.Id);
             return NoContent();
         }
 
