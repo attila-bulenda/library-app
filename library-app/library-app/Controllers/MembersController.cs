@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using library_app.Data;
 using library_app.Models.MemberDtos;
-using library_app.Contracts;
 using library_app.Service;
 
 namespace library_app.Controllers
@@ -10,14 +8,10 @@ namespace library_app.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        private readonly IMembersRepository _membersRepository;
-        private readonly IBooksRepository _booksRepository;
         private readonly MembersService _membersService;
 
-        public MembersController(IMembersRepository membersRepository, IBooksRepository booksRepository, MembersService membersService)
+        public MembersController(MembersService membersService)
         {
-            _membersRepository = membersRepository;
-            _booksRepository = booksRepository;
             _membersService = membersService;
         }
 
@@ -43,7 +37,7 @@ namespace library_app.Controllers
 
         // POST: api/members/loan/1/978-1-345-67890-1
         [HttpPost("loan/{id}/{isbn}")]
-        public async Task<ActionResult<Member>> LoanOutBookToMember(int id, string isbn)
+        public async Task<ActionResult> LoanOutBookToMember(int id, string isbn)
         {
             var error = await _membersService.LoanBookAsync(id, isbn);
             if (error == "Member not found") return NotFound(error);
@@ -54,7 +48,7 @@ namespace library_app.Controllers
 
         // POST: api/members/return/1/978-1-345-67890-1
         [HttpPost("return/{id}/{isbn}")]
-        public async Task<ActionResult<Member>> ReturnBookToLibrary(int id, string isbn)
+        public async Task<ActionResult> ReturnBookToLibrary(int id, string isbn)
         {
             var error = await _membersService.ReturnBookAsync(id, isbn);
             if (error == "Member not found") return NotFound(error);

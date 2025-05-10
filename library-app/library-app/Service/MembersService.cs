@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using library_app.Models.MemberDtos;
 using library_app.Contracts;
-using library_app.Repository;
 
 namespace library_app.Service
 {
@@ -30,8 +29,8 @@ namespace library_app.Service
 
         public async Task<List<MemberDto>> GetAllMembersAsync()
         {
-            var result = await _membersRepository.GetAllAsync();
-            return _mapper.Map<List<MemberDto>>(result);
+            var members = await _membersRepository.GetAllAsync();
+            return _mapper.Map<List<MemberDto>>(members);
         }
 
         public async Task<string?> LoanBookAsync(int id, string isbn)

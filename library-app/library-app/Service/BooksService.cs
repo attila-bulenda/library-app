@@ -2,7 +2,6 @@
 using library_app.Contracts;
 using library_app.Data;
 using library_app.Models.BookDtos;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace library_app.Service
