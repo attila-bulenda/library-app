@@ -2,6 +2,7 @@ using library_app.Configurations;
 using library_app.Contracts;
 using library_app.Data;
 using library_app.Repository;
+using library_app.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IMembersRepository, MembersRepository>();
+builder.Services.AddScoped<MembersService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>

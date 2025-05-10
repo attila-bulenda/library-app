@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using library_app.Data;
 using library_app.Models.MemberDtos;
-using AutoMapper;
 using library_app.Contracts;
+using library_app.Service;
 
 namespace library_app.Controllers
 {
@@ -13,21 +12,20 @@ namespace library_app.Controllers
     {
         private readonly IMembersRepository _membersRepository;
         private readonly IBooksRepository _booksRepository;
-        private readonly IMapper _mapper;
+        private readonly MembersService _membersService;
 
-        public MembersController(IMapper mapper, IMembersRepository membersRepository, IBooksRepository booksRepository)
+        public MembersController(IMembersRepository membersRepository, IBooksRepository booksRepository, MembersService membersService)
         {
             _membersRepository = membersRepository;
             _booksRepository = booksRepository;
-            _mapper = mapper;
+            _membersService = membersService;
         }
 
         // GET: api/members
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetMembers()
         {
-            var result = await _membersRepository.GetAllAsync();    
-            var members = _mapper.Map<List<MemberDto>>(result);
+            var members = await _membersService.GetAllMembersAsync();
             return Ok(members);
         }
 
@@ -35,12 +33,11 @@ namespace library_app.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MemberFullDto>> GetMember(int id)
         {
-            var result = await _membersRepository.FindMemberWithBooksLoanedAsync(id);
-            if (result == null)
+            var member = await _membersService.GetMemberAsync(id);
+            if (member == null)
             {
                 return NotFound();
             }
-            var member = _mapper.Map<MemberFullDto>(result);
             return Ok(member);
         }
 
