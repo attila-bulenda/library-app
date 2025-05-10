@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using library_app.Data;
 using library_app.Models.BookDtos;
-using AutoMapper;
 using library_app.Contracts;
+using library_app.Service;
 
 namespace library_app.Controllers
 {
@@ -11,21 +10,20 @@ namespace library_app.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IBooksRepository _booksRepository;
+        private readonly BooksService _booksService;
 
-        public BooksController(IMapper mapper, IBooksRepository booksRepository)
+        public BooksController(IBooksRepository booksRepository, BooksService booksService)
         {
             _booksRepository = booksRepository;
-            _mapper = mapper;
+            _booksService = booksService;
         }
 
         // GET: api/books
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
-            var books = await _booksRepository.GetAllAsync();
-            var records = _mapper.Map<List<BookDto>>(books);
+            var records = await _booksService.GetAllBooksAsync();
             return Ok(records);
         }
         
@@ -58,15 +56,7 @@ namespace library_app.Controllers
             {
                 return NotFound();
             }
-            _mapper.Map(updateBookDto, searchResult);
-            try
-            {
-                await _booksRepository.UpdateAsync(searchResult);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
+            await _booksService.UpdateBook(searchResult, updateBookDto);
             return NoContent();
         }
 
@@ -74,9 +64,7 @@ namespace library_app.Controllers
         [HttpPost]
         public async Task<ActionResult<BookDto>> PostBook(CreateBookDto bookDto)
         {
-            var book = _mapper.Map<Book>(bookDto);
-            book.AvailableForLoan = true;
-            await _booksRepository.AddAsync(book);
+            var book = await _booksService.AddBook(bookDto);
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
@@ -95,12 +83,8 @@ namespace library_app.Controllers
 
         private ActionResult<BookDto> GetBookBySearchResult(Book searchResult)
         {
-            if (searchResult == null)
-            {
-                return NotFound();
-            }
-            var book = _mapper.Map<BookDto>(searchResult);
-            return Ok(book);
+            var book = _booksService.MapSearchResult(searchResult);
+            return book == null ? NotFound() : Ok(book);
         }
     }
 }

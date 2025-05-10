@@ -18,6 +18,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IMembersRepository, MembersRepository>();
 builder.Services.AddScoped<MembersService>();
+builder.Services.AddScoped<BooksService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
