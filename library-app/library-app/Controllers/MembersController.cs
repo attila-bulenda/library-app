@@ -45,21 +45,10 @@ namespace library_app.Controllers
         [HttpPost("loan/{id}/{isbn}")]
         public async Task<ActionResult<Member>> LoanOutBookToMember(int id, string isbn)
         {
-            var member = await _membersRepository.GetAsync(id);
-            var book = await _booksRepository.FindByISBNAsync(isbn);
-            if (member == null)
-            {
-                return NotFound($"Member not found with ID {id}.");
-            }
-            else if (book == null)
-            {
-                return NotFound($"Book not found with ISBN {isbn}.");
-            }
-            else if (book.AvailableForLoan == false)
-            {
-                return BadRequest("Error: book already loaned.");
-            }
-            await _membersRepository.LoanOutBookToMemberAsync(book, member);
+            var error = await _membersService.LoanBookAsync(id, isbn);
+            if (error == "Member not found") return NotFound(error);
+            if (error == "Book not found") return NotFound(error);
+            if (error != null) return BadRequest(error);
             return NoContent();
         }
 
@@ -67,21 +56,10 @@ namespace library_app.Controllers
         [HttpPost("return/{id}/{isbn}")]
         public async Task<ActionResult<Member>> ReturnBookToLibrary(int id, string isbn)
         {
-            var member = await _membersRepository.GetAsync(id);
-            var book = await _booksRepository.FindByISBNAsync(isbn);
-            if (member == null)
-            {
-                return NotFound($"Member not found with ID {id}.");
-            }
-            else if (book == null)
-            {
-                return NotFound($"Book not found with ISBN {isbn}.");
-            }
-            else if (book.AvailableForLoan == true)
-            {
-                return BadRequest("Error: book already available.");
-            }
-            await _membersRepository.ReturnBookToLibraryAsync(book, member);
+            var error = await _membersService.ReturnBookAsync(id, isbn);
+            if (error == "Member not found") return NotFound(error);
+            if (error == "Book not found") return NotFound(error);
+            if (error != null) return BadRequest(error);
             return NoContent();
         }
     }
