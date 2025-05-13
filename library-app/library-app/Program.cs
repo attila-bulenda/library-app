@@ -1,8 +1,10 @@
 using library_app.Configurations;
 using library_app.Contracts;
 using library_app.Data;
+using library_app.Identity;
 using library_app.Repository;
 using library_app.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("LibraryAppDbConnectionString");
 builder.Services.AddDbContext<LibraryAppDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddIdentityCore<LibraryUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<LibraryAppDbContext>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

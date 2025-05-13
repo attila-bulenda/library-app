@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using library_app.Data;
 
@@ -11,9 +12,11 @@ using library_app.Data;
 namespace library_app.Migrations
 {
     [DbContext(typeof(LibraryAppDbContext))]
-    partial class LibraryAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250513160156_AddingIdentityTables")]
+    partial class AddingIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,14 +50,6 @@ namespace library_app.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "288407f6-be60-4483-87f0-31eaa2265f96",
-                            Name = "Librarian",
-                            NormalizedName = "LIBRARIAN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
