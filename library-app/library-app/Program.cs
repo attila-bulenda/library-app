@@ -22,6 +22,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IMembersRepository, MembersRepository>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<MembersService>();
 builder.Services.AddScoped<BooksService>();
 builder.Services.AddCors(options =>
