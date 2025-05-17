@@ -6,6 +6,6 @@ namespace library_app.Contracts
     public interface IAuthManager
     {
         Task<IEnumerable<IdentityError>> Register(LibraryUserDto libraryUserDto);
-        Task<bool> Login(LoginLibraryUserDto loginLibraryUserDto);
+        Task<AuthResponseDto> Login(LoginLibraryUserDto loginLibraryUserDto);
     }
 }

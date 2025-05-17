@@ -43,12 +43,12 @@ namespace library_app.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Login([FromBody] LoginLibraryUserDto loginLibraryUserDto)
         {
-            var isValidUser = await _authManager.Login(loginLibraryUserDto);
-            if (!isValidUser)
+            var authResponse = await _authManager.Login(loginLibraryUserDto);
+            if (authResponse == null)
             {
                 return Unauthorized();
             }
-            return Ok();
+            return Ok(authResponse);
         }
     }
 }
