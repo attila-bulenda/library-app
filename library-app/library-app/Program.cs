@@ -17,7 +17,9 @@ var connectionString = builder.Configuration.GetConnectionString("LibraryAppDbCo
 builder.Services.AddDbContext<LibraryAppDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentityCore<LibraryUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<LibraryAppDbContext>();
+    .AddTokenProvider<DataProtectorTokenProvider<LibraryUser>>("LibraryAppApi")
+    .AddEntityFrameworkStores<LibraryAppDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -64,11 +66,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-
+app.UseAuthentication();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

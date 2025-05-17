@@ -3,11 +3,13 @@ using library_app.Data;
 using library_app.Models.BookDtos;
 using library_app.Contracts;
 using library_app.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace library_app.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Librarian")]
     public class BooksController : ControllerBase
     {
         private readonly IBooksRepository _booksRepository;

@@ -7,5 +7,7 @@ namespace library_app.Contracts
     {
         Task<IEnumerable<IdentityError>> Register(LibraryUserDto libraryUserDto);
         Task<AuthResponseDto> Login(LoginLibraryUserDto loginLibraryUserDto);
+        Task<string> CreateRefreshToken();
+        Task<AuthResponseDto> VerifyRefreshToken(AuthResponseDto authResponseDto);
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using library_app.Models.MemberDtos;
 using library_app.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace library_app.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Librarian")]
     public class MembersController : ControllerBase
     {
         private readonly MembersService _membersService;
