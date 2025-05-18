@@ -1,15 +1,19 @@
 const urls = {
-	base: "https://localhost:8080",
+	base: "https://localhost:8080/api",
 	book: {
-		getBooks: "/api/books",
-		addBook: "/api/books",
-		removeBook: "/api/books/",
-		searchBookByIsbn: "/api/books/isbn/"
+		getBooks: "/books",
+		addBook: "/books",
+		removeBook: "/books/",
+		searchBookByIsbn: "/books/isbn/"
 	},
 	member: {
-		getMembers: "/api/members",
-		getMemberById: "/api/members/",
-		loanBookToMember: "/api/members/loan/",
-		returnBookToLibrary: "/api/members/return/"
+		getMembers: "/members",
+		getMemberById: "/members/",
+		loanBookToMember: "/members/loan/",
+		returnBookToLibrary: "/members/return/"
+	},
+	authentication: {
+		register: "/user/register",
+		login: "/user/login"
 	}
 }

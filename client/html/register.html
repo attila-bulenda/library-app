@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Library</title>
+    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+</head>
+<body class="container mt-5">
+    <h2>Register</h2>
+    <form id="registerForm">
+        <div class="mb-3">
+            <label for="firstname" class="form-label">First Name:</label>
+            <input type="text" id="firstname" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Last Name:</label>
+            <input type="text" id="lastname" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" required>
+        </div>
+        <div id="statusMsg" class="mb-3" style="display: none;"></div>
+        <button type="submit" class="btn btn-success">Register</button>
+        <a href="../login.html" class="btn btn-link">Back to login</a>
+    </form>
+	<script src="../js/config.js"></script>
+	<script>
+		document.getElementById("registerForm").addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			const firstname = document.getElementById("firstname").value;
+			const lastname = document.getElementById("lastname").value;
+			const email = document.getElementById("email").value;
+			const password = document.getElementById("password").value;
+
+			try {
+				const response = await fetch(urls.base + urls.authentication.register, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ 
+						firstname: firstname, 
+						lastname: lastname, 
+						email: email, 
+						password: password 
+					}),
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					const firstError = Object.values(errorData)[0];
+					throw new Error(firstError || "Registration failed. Try again.");
+				}
+
+				document.getElementById("statusMsg").textContent = "Registration successful! You can now log in.";
+				document.getElementById("statusMsg").style.display = "block";
+				document.getElementById("statusMsg").classList.remove("text-danger");
+				document.getElementById("statusMsg").classList.add("text-success");
+			} catch (error) {
+				document.getElementById("statusMsg").textContent = error.message;
+				document.getElementById("statusMsg").style.display = "block";
+				document.getElementById("statusMsg").classList.remove("text-success");
+				document.getElementById("statusMsg").classList.add("text-danger");
+			}
+		});
+	</script>
+</body>
+</html>

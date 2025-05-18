@@ -7,7 +7,11 @@ namespace library_app.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Librarian")]
+    /*
+     * Turning off Authorization requirements as the front-end is a simple HTML page and
+     * is not able to store JWTs properly
+     * [Authorize(Roles = "Librarian")]
+    */
     public class MembersController : ControllerBase
     {
         private readonly MembersService _membersService;
