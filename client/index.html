@@ -37,7 +37,7 @@
                 if (!response.ok) {
                     throw new Error("Login failed. Check your credentials.");
                 }				
-                window.location.href = "./html/index.html";
+                window.location.href = "./html/landing.html";
             } catch (error) {
                 document.getElementById("errorMsg").textContent = error.message;
                 document.getElementById("errorMsg").style.display = "block";
