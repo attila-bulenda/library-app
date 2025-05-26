@@ -1,14 +1,14 @@
-using library_app.Configurations;
 using library_app.Contracts;
-using library_app.Data;
+using library_app.Core.Configurations;
 using library_app.Identity;
-using library_app.Repository;
 using library_app.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using library_app.Data.Context;
+using library_app.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

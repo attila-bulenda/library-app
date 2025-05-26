@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>library_app.Service</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\library-app.Contracts\library-app.Contracts.csproj" />
+    <ProjectReference Include="..\library-app.Data\library-app.Data.csproj" />
+  </ItemGroup>
+
+</Project>

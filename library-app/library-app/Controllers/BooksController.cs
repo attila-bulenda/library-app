@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using library_app.Data;
+using library_app.Data.Data;
 using library_app.Models.BookDtos;
 using library_app.Contracts;
 using library_app.Service;
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authorization;
 
-namespace library_app.Controllers
+namespace library_app.Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

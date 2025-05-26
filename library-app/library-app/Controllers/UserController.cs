@@ -1,9 +1,9 @@
 ﻿using library_app.Contracts;
 using library_app.Models.UserDtos;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace library_app.Controllers
+namespace library_app.Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
