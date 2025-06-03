@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library-app.Models", "libra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library-app.Repository", "library-app.Repository\library-app.Repository.csproj", "{14500553-5BEF-42AE-97AD-5FE8B493C749}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library-app.Tests", "library-app.Tests\library-app.Tests.csproj", "{D7CB3BF5-100E-4C59-859C-ED31CAA7D401}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{14500553-5BEF-42AE-97AD-5FE8B493C749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14500553-5BEF-42AE-97AD-5FE8B493C749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14500553-5BEF-42AE-97AD-5FE8B493C749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7CB3BF5-100E-4C59-859C-ED31CAA7D401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7CB3BF5-100E-4C59-859C-ED31CAA7D401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7CB3BF5-100E-4C59-859C-ED31CAA7D401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7CB3BF5-100E-4C59-859C-ED31CAA7D401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
