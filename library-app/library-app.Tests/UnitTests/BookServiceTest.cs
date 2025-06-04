@@ -76,7 +76,7 @@ namespace library_app.Tests.UnitTests
         }
 
         [Fact]
-        public async Task ShouldReturnAllBooksFromDatabase()
+        public async Task ShouldReturnAllBooks()
         {
             /*
              * Arrange:
@@ -107,7 +107,7 @@ namespace library_app.Tests.UnitTests
         }
 
         [Fact]
-        public async Task ShouldUpdateBookInDatabase()
+        public async Task ShouldUpdateBook()
         {
             _mapper.Setup(m => m.Map(
                 It.Is<BookDto>(src => src == _bookDtos[1]),
@@ -126,7 +126,7 @@ namespace library_app.Tests.UnitTests
         }
 
         [Fact]
-        public async Task ShouldAddBookToDatabase()
+        public async Task ShouldAddBook()
         {
             _booksRepository.Setup(r => r.AddAsync(_books[0]));
             _mapper.Setup(m => m.Map<Book>(_createBookDto))
