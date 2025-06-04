@@ -6,7 +6,7 @@ using library_app.Service;
 using Moq;
 using Shouldly;
 
-namespace library_app.Tests.UnitTests
+namespace library_app.Tests
 {
     public class BookServiceTest
     {
