@@ -56,6 +56,7 @@ builder.Services.AddCors(options =>
                .AllowAnyMethod();
     });
 });
+builder.WebHost.UseUrls("http://+:80");
 
 var app = builder.Build();
 
